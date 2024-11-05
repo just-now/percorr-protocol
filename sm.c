@@ -2,6 +2,7 @@
 #include <stddef.h> /* NULL */
 #include <stdio.h> /* fprintf */
 #include <time.h>      /* syscall, getpid */
+#include <unistd.h> /* getpid */
 
 
 static bool sm_is_locked(const struct sm *m)
@@ -15,6 +16,14 @@ int sm_state(const struct sm *m)
 	return m->state;
 }
 
+static unsigned int sm_pid(void)
+{
+	static unsigned int pid = 0;
+	if (pid == 0)
+		 pid = getpid();
+	return pid & 0x7F;
+}
+
 static inline void sm_obs(const struct sm *m)
 {
 	struct timespec ts = {0};
@@ -25,13 +34,32 @@ static inline void sm_obs(const struct sm *m)
 
 	fprintf(stderr,
 		"LIBDQLITE[%6.6u] %04d-%02d-%02dT%02d:%02d:%02d.%09lu "
-		"%s pid: %lu sm_id: %lu %s |\n",
-		111,
+		"%s pid: %u sm_id: %lu %s |\n",
+		sm_pid(),
 
 		tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour,
-		tm.tm_min, tm.tm_sec, (unsigned long)ts.tv_nsec,
+		tm.tm_min, tm.tm_sec, (unsigned long) ts.tv_nsec,
 
-		m->name, 111UL, m->id, m->conf[sm_state(m)].name);
+		m->name, sm_pid(), m->id, m->conf[sm_state(m)].name);
+}
+
+void sm_attr_obs(const struct sm *m, const char *key, const char *value)
+{
+	struct timespec ts = {0};
+	struct tm tm;
+
+	clock_gettime(CLOCK_REALTIME, &ts);
+	gmtime_r(&ts.tv_sec, &tm);
+
+	fprintf(stderr,
+		"LIBDQLITE[%6.6u] %04d-%02d-%02dT%02d:%02d:%02d.%09lu "
+		"%s-attr pid: %u sm_id: %lu %s key: %s value: %s |\n",
+		sm_pid(),
+
+		tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour,
+		tm.tm_min, tm.tm_sec, (unsigned long) ts.tv_nsec,
+
+		m->name, sm_pid(), m->id, m->conf[sm_state(m)].name, key, value);
 }
 
 void sm_to_sm_obs(const struct sm *from, const struct sm *to)
@@ -44,13 +72,33 @@ void sm_to_sm_obs(const struct sm *from, const struct sm *to)
 
 	fprintf(stderr,
 		"LIBDQLITE[%6.6u] %04d-%02d-%02dT%02d:%02d:%02d.%09lu "
-		"%s-to-%s opid: %lu dpid: %lu id: %lu id: %lu |\n",
-		111,
+		"%s-to-%s opid: %u dpid: %u id: %lu id: %lu |\n",
+		sm_pid(),
 
 		tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour,
-		tm.tm_min, tm.tm_sec, (unsigned long)ts.tv_nsec,
+		tm.tm_min, tm.tm_sec, (unsigned long) ts.tv_nsec,
 
-		from->name, to->name, 111UL, 111UL, from->id, to->id);
+		from->name, to->name, sm_pid(), sm_pid(), from->id, to->id);
+}
+
+void from_to_obs(const char *from_name, uint32_t from_pid, uint64_t from_id,
+		 const char *to_name, uint32_t to_pid, uint64_t to_id)
+{
+	struct timespec ts = {0};
+	struct tm tm;
+
+	clock_gettime(CLOCK_REALTIME, &ts);
+	gmtime_r(&ts.tv_sec, &tm);
+
+	fprintf(stderr,
+		"LIBDQLITE[%6.6u] %04d-%02d-%02dT%02d:%02d:%02d.%09lu "
+		"%s-to-%s opid: %u dpid: %u id: %lu id: %lu |\n",
+		from_pid,
+
+		tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour,
+		tm.tm_min, tm.tm_sec, (unsigned long) ts.tv_nsec,
+
+		from_name, to_name, from_pid, to_pid, from_id, to_id);
 }
 
 void sm_init(struct sm *m,

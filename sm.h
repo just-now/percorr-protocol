@@ -63,4 +63,7 @@ void sm_move(struct sm *m, int next_state);
 void sm_fail(struct sm *m, int fail_state, int rc);
 int sm_state(const struct sm *m);
 void sm_to_sm_obs(const struct sm *from, const struct sm *to);
+void from_to_obs(const char *from_name, uint32_t from_pid, uint64_t from_id,
+		 const char *to_name, uint32_t to_pid, uint64_t to_id);
+void sm_attr_obs(const struct sm *m, const char *key, const char *value);
 #endif /* __LIB_SM__ */

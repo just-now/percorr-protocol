@@ -16,28 +16,22 @@
   id: 6
   pid: 4
   type: 2
-  name: 7
-  value: 1
+  name: 9
+  value: 11
 
 tick:
-  - type: gw
+  - type: leader
     pos: *tick_parser_positions
-  - type: req
-    pos: *tick_parser_positions
-  - type: conn
+  - type: rpc
     pos: *tick_parser_positions
 
 relation:
-  - type: conn-to-gw
-    pos: *rel_parser_positions
-  - type: gw-to-req
+  - type: leader-to-rpc
     pos: *rel_parser_positions
 
 attr:
-  - type: gw-attr
+  - type: rpc-attr
     pos: *attr_parser_positions
-  - type: req-attr
-    pos: *attr_parser_positions
-  - type: conn-attr
+  - type: leader-attr
     pos: *attr_parser_positions
 
