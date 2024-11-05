@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# set -x
+set -e
+
+[[ -n $1 ]] || { echo "usage: ./browse chronoscope.db"; exit 1; }
+
+DB="$1"
+RQ=$(echo 'select DISTINCT(id) from tick where type="conn";' | sqlite3 $DB)
+ENV=${2:-./env}
+
+env() {
+    $ENV "$@"
+}
+
+for r in $RQ; do
+    env python3 -m chronoscope -d $DB vcd   -v -k $r
+    env python3 -m chronoscope -d $DB tree  -v -k $r
+    env python3 -m chronoscope -d $DB chart -v -k $r
+done

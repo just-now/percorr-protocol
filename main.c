@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <uv.h>
 #include "sm.h"
 
@@ -9,11 +11,15 @@ static void sent_cb(uv_udp_send_t* req, int status);
 static void on_timeout(uv_timer_t *timeout);
 static void on_send(uv_udp_send_t *req, int status);
 
+enum {
+	CHUNK_SIZE = 4096,
+};
+
 enum msg_type {
 	MSG_RESTARTED = 0x55555555,
-	MSG_RESTARTED_REPLY = 0x77777777,
-	MSG_BLOB = 0x88888888,
-	MSG_BLOB_REPLY = 0x99999999,
+	MSG_RESTARTED_REPLY,
+	MSG_BLOB,
+	MSG_BLOB_REPLY,
 };
 
 struct msg_base {
@@ -22,7 +28,7 @@ struct msg_base {
 
 struct msg_restarted {
 	struct msg_base b;
-	int chunks_expected;
+	int chunks_total;
 };
 
 struct msg_restarted_reply {
@@ -33,7 +39,8 @@ struct msg_restarted_reply {
 struct msg_blob {
 	struct msg_base b;
 	int chunk_index;
-	char blob[4096];
+	int chunk_size;
+	char blob[CHUNK_SIZE];
 };
 
 struct msg_blob_reply {
@@ -56,12 +63,13 @@ struct party {
 
 	enum role          role;
 	struct sm          leader;
-	struct sm          follower;
 
-	/* follower */
-	int chunks_expected;
-	int chunks_received;
-	int chunk_index;
+	/* leader/follower */
+	off_t chunk_index;
+	off_t chunks_total;
+	off_t file_size;
+	off_t chunks_received;
+	int   fd;
 };
 
 enum trigger {
@@ -120,56 +128,57 @@ static bool leader_sm_invariant(const struct sm *sm, int prev_state)
         return true;
 }
 
-enum follower_sm_states {
-	F_RESTARTED,
-	F_RECEIVING,
-	F_DONE,
-	F_NR,
-};
-
-static const struct sm_conf follower_sm_conf[F_NR] = {
-        [F_RESTARTED] = {
-                .flags   = SM_INITIAL | SM_FINAL,
-                .name    = "restarted",
-                .allowed = BITS(F_RECEIVING),
-        },
-        [F_RECEIVING] = {
-                .name    = "recving",
-                .allowed = BITS(F_DONE),
-        },
-        [F_DONE] = {
-                .name    = "done",
-        },
-};
-
-static bool follower_sm_invariant(const struct sm *sm, int prev_state)
+static void leader_file_open(struct party *leader)
 {
-        return true;
+	off_t                 size;
+
+	leader->fd = open("main.c", O_RDONLY);
+	assert(leader->fd > 0);
+	size = lseek(leader->fd, 0, SEEK_END);
+	assert(size > 0);
+	leader->file_size = size;
+	leader->chunks_total = size == 0 ? 0 : 1 + size / CHUNK_SIZE;
+	printf("size=%ld total=%ld\n", size, leader->chunks_total);
+	size = lseek(leader->fd, 0, SEEK_SET);
+	assert(size == 0);
+	//close(leader->fd);
+}
+
+static void leader_file_read_chunk(struct party *leader, struct msg_blob *blob)
+{
+	blob->chunk_index = leader->chunk_index;
+	/* TODO! calculate chnuk size properly. */
+	blob->chunk_size = CHUNK_SIZE;
+	read(leader->fd, blob->blob, blob->chunk_size);
 }
 
 static int rpc_tick(struct party *leader)
 {
-	struct msg_restarted *message;
 	struct sockaddr_in    saddr;
 	struct sm            *sm = &leader->leader;
 	uv_buf_t              buf;
 	int                   rc;
 
 	switch(sm_state(sm)) {
-	case L_RESTARTED_LOOP:
+	case L_RESTARTED_LOOP: {
+		struct msg_restarted *message;
 		message = malloc(sizeof(*message));
 		assert(message != NULL);
 		buf = uv_buf_init((char *) message, sizeof *message);
 		message->b.type = MSG_RESTARTED;
 		uv_req_set_data((uv_req_t *) &leader->request, message);
 		break;
-	case L_BLOB_LOOP:
+	}
+	case L_BLOB_LOOP: {
+		struct msg_blob *message;
 		message = malloc(sizeof(*message));
 		assert(message != NULL);
 		buf = uv_buf_init((char *) message, sizeof *message);
 		message->b.type = MSG_BLOB;
+		leader_file_read_chunk(leader, message);
 		uv_req_set_data((uv_req_t *) &leader->request, message);
 		break;
+	}
 	case L_RESTARTED_REPLIED:
 	case L_BLOB_REPLIED:
 		rc = uv_timer_stop(&leader->timeout);
@@ -203,6 +212,7 @@ again:
 		if (trigger != T_TIMEOUT)
 			break;
 
+		leader_file_open(leader);
 		rc = rpc_tick(leader);
 		if (rc == 0) {
 			sm_move(sm, L_RESTARTED_SENT);
@@ -288,13 +298,25 @@ static void follower_tick(struct party *follower, const struct sockaddr *addr,
 		break;
 	}
 	case MSG_BLOB: {
+		struct msg_blob *blob = (struct msg_blob *) message->base;
+		int fd = open("follower.c", O_CREAT | O_WRONLY,
+			      S_IRUSR | S_IWUSR);
+		assert(fd > 0);
+
+		off_t size = lseek(fd, blob->chunk_index * CHUNK_SIZE, SEEK_SET);
+		assert(size >= 0);
+
+		rc = write(fd, blob->blob, blob->chunk_size);
+		assert(rc > 0);
+		close(fd);
+
 		struct msg_blob_reply *reply;
 		reply = malloc(sizeof(*reply));
 		assert(reply != NULL);
 		uv_req_set_data((uv_req_t *) &follower->reply, reply);
 		reply->b.type = MSG_BLOB_REPLY;
 		reply->result = 0;
-		reply->known_index_max = 0;
+		reply->known_index_max = blob->chunk_index;
 		buf = uv_buf_init((char *)reply, sizeof(*reply));
 		break;
 	}
@@ -388,7 +410,7 @@ static void on_timeout(uv_timer_t *timeout)
 int main(int argc, char **argv)
 {
 	int rc;
-	struct party party;
+	struct party party = {};
 	int raddr = 8080;
 
 	if (argc < 2)
@@ -413,10 +435,6 @@ int main(int argc, char **argv)
 		sm_init(&party.leader, leader_sm_invariant,
 			NULL, leader_sm_conf, L_RESTARTED_LOOP);
 
-	} else {
-		party.follower = (struct sm) { .name = "follower" };
-		sm_init(&party.follower, follower_sm_invariant,
-			NULL, follower_sm_conf, F_RESTARTED);
 	}
 
 	rc = udp4_start(&party.server, raddr);
