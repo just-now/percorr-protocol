@@ -44,8 +44,8 @@ struct msg_restarted_reply {
 
 struct msg_blob {
 	struct msg_base b;
-	int chunk_index;
-	int chunk_size;
+	uint32_t chunk_index;
+	uint32_t chunk_size;
 	char blob[CHUNK_SIZE];
 };
 
@@ -62,23 +62,21 @@ enum role {
 };
 
 struct party {
-	uv_udp_send_t      reply;
-	struct sm          reply_sm;
-	uv_udp_send_t      request;
-	struct sm          request_sm;
+	uv_udp_send_t  reply;
+	uv_udp_send_t  request;
+	uv_timer_t     timeout;
+	uv_udp_t       server;
 
-	uv_timer_t         timeout;
-	uv_udp_t           server;
+	enum role      role;
+	struct sm      leader;
+	struct sm      reply_sm;
+	struct sm      request_sm;
 
-	enum role          role;
-	struct sm          leader;
-
-	/* leader/follower */
-	off_t              chunk_index;
-	off_t              chunks_total;
-	off_t              file_size;
-	off_t              chunks_received;
-	int                fd;
+	uint32_t       chunk_index;
+	uint32_t       chunks_total;
+	uint32_t       file_size;
+	uint32_t       chunks_received;
+	int            fd;
 };
 
 enum trigger {
@@ -201,15 +199,17 @@ static void leader_file_open(struct party *leader)
 	assert(size > 0);
 	leader->file_size = size;
 	leader->chunks_total = size == 0 ? 0 : 1 + size / CHUNK_SIZE;
-	printf("size=%ld total=%ld\n", size, leader->chunks_total);
+	printf("size=%ld total=%d\n", size, leader->chunks_total);
 	size = lseek(leader->fd, 0, SEEK_SET);
 	assert(size == 0);
 }
 
 static void leader_file_read_chunk(struct party *leader, struct msg_blob *blob)
 {
+	int remaining;
+
 	blob->chunk_index = leader->chunk_index;
-	int remaining = leader->file_size - blob->chunk_index * CHUNK_SIZE;
+	remaining = leader->file_size - blob->chunk_index * CHUNK_SIZE;
 	blob->chunk_size = MIN(CHUNK_SIZE, remaining);
 	read(leader->fd, blob->blob, blob->chunk_size);
 }
@@ -255,16 +255,16 @@ static int rpc_tick(struct party *leader)
 		sm_move(&leader->request_sm, R_SENT);
 
 		char buf[80];
-		sprintf(buf, "%ld", leader->chunk_index);
+		sprintf(buf, "%d", leader->chunk_index);
 		sm_attr_obs(&leader->request_sm, "chunk_index", buf);
 
-		sprintf(buf, "%ld", leader->chunks_total);
+		sprintf(buf, "%d", leader->chunks_total);
 		sm_attr_obs(&leader->request_sm, "chunks_total", buf);
 
-		sprintf(buf, "%ld", leader->file_size);
+		sprintf(buf, "%d", leader->file_size);
 		sm_attr_obs(&leader->request_sm, "file_size", buf);
 
-		sprintf(buf, "%ld", leader->chunks_received);
+		sprintf(buf, "%d", leader->chunks_received);
 		sm_attr_obs(&leader->request_sm, "chunks_received", buf);
 
 		sprintf(buf, "%d", message->chunk_size);
