@@ -28,6 +28,8 @@ tick:
 relation:
   - type: leader-to-rpc
     pos: *rel_parser_positions
+  - type: rpc-to-rpc
+    pos: *rel_parser_positions
 
 attr:
   - type: rpc-attr

@@ -8,6 +8,8 @@
 #include "sm.h"
 
 #define min(a,b) (((a)<(b))?(a):(b))
+#define impossible() assert(0);
+
 
 static void sent_cb(uv_udp_send_t* req, int status);
 static void on_timeout(uv_timer_t *timeout);
@@ -18,14 +20,16 @@ enum {
 };
 
 enum msg_type {
-	MSG_RESTARTED = 0x55555555,
+	MSG_RESTARTED = 0x42,
 	MSG_RESTARTED_REPLY,
 	MSG_BLOB,
 	MSG_BLOB_REPLY,
 };
 
 struct msg_base {
-	int type;
+	int      type;
+	uint64_t sm_id;
+	uint32_t sm_pid;
 };
 
 struct msg_restarted {
@@ -228,6 +232,8 @@ static int rpc_tick(struct party *leader)
 		assert(message != NULL);
 		buf = uv_buf_init((char *) message, sizeof *message);
 		message->b.type = MSG_RESTARTED;
+		message->b.sm_id = leader->request_sm.id;
+		message->b.sm_pid = sm_pid();
 		uv_req_set_data((uv_req_t *) &leader->request, message);
 		sm_move(&leader->request_sm, R_SENT);
 		break;
@@ -242,6 +248,8 @@ static int rpc_tick(struct party *leader)
 		assert(message != NULL);
 		buf = uv_buf_init((char *) message, sizeof *message);
 		message->b.type = MSG_BLOB;
+		message->b.sm_id = leader->request_sm.id;
+		message->b.sm_pid = sm_pid();
 		leader_file_read_chunk(leader, message);
 		uv_req_set_data((uv_req_t *) &leader->request, message);
 		sm_move(&leader->request_sm, R_SENT);
@@ -275,7 +283,7 @@ static int rpc_tick(struct party *leader)
 	case L_RESTARTED_SENT:
 	case L_BLOB_SENT:
 	default:
-		assert(0); /* impossible */
+		impossible();
 	}
 
 	rc = uv_ip4_addr("127.0.0.1", 8080, &saddr);
@@ -310,6 +318,7 @@ again:
 	case L_RESTARTED_SENT:
 		if (trigger == T_TIMEOUT) {
 			sm_move(sm, L_RESTARTED_LOOP);
+			sm_move(&leader->request_sm, R_TIMEOUT);
 			goto again;
 		} else if (trigger == T_MSGSENT && status != 0) {
 			break;
@@ -381,6 +390,12 @@ static void follower_tick(struct party *follower, const struct sockaddr *addr,
 	req = (struct msg_base *) message->base;
 	printf("recv type=%x\n", req->type);
 
+	sm_init(&follower->reply_sm, rpc_sm_invariant, NULL,
+		rpc_sm_conf, R_INIT);
+	sm_move(&follower->reply_sm, R_RECV);
+	sm_from_to_obs("rpc", req->sm_pid, req->sm_id,
+		       "rpc", sm_pid(), follower->reply_sm.id);
+
 	switch(req->type) {
 	case MSG_RESTARTED: {
 		struct msg_restarted_reply *reply;
@@ -393,19 +408,24 @@ static void follower_tick(struct party *follower, const struct sockaddr *addr,
 		break;
 	}
 	case MSG_BLOB: {
-		struct msg_blob *blob = (struct msg_blob *) message->base;
-		int fd = open("follower.x", O_CREAT | O_WRONLY,
-			      S_IRUSR | S_IWUSR);
+		struct msg_blob_reply *reply;
+		struct msg_blob *blob;
+		off_t size;
+		int fd;
+
+		/* TODO: check incoming message */
+		blob = (struct msg_blob *) message->base;
+		fd = open("file.x", O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
 		assert(fd > 0);
 
-		off_t size = lseek(fd, blob->chunk_index * CHUNK_SIZE, SEEK_SET);
+		size = lseek(fd, blob->chunk_index * CHUNK_SIZE, SEEK_SET);
 		assert(size >= 0);
 
 		rc = write(fd, blob->blob, blob->chunk_size);
 		assert(rc > 0);
 		close(fd);
 
-		struct msg_blob_reply *reply;
+		/* Prepare message */
 		reply = malloc(sizeof(*reply));
 		assert(reply != NULL);
 		uv_req_set_data((uv_req_t *) &follower->reply, reply);
@@ -416,12 +436,15 @@ static void follower_tick(struct party *follower, const struct sockaddr *addr,
 		break;
 	}
 	default:
-		assert(0); /* impossible */
+		impossible();
 	}
 
-	rc = uv_udp_send(&follower->reply, &follower->server,
-			 &buf, 1, addr, on_send);
+	rc = uv_udp_send(&follower->reply, &follower->server, &buf, 1,
+			 addr, on_send);
 	assert(rc == 0);
+
+	sm_move(&follower->reply_sm, R_RECV_SENT);
+	sm_fini(&follower->reply_sm);
 }
 
 // -----------------------------------------------------------------------------

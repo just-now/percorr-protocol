@@ -16,7 +16,7 @@ int sm_state(const struct sm *m)
 	return m->state;
 }
 
-static unsigned int sm_pid(void)
+unsigned int sm_pid(void)
 {
 	static unsigned int pid = 0;
 	if (pid == 0)
@@ -81,8 +81,8 @@ void sm_to_sm_obs(const struct sm *from, const struct sm *to)
 		from->name, to->name, sm_pid(), sm_pid(), from->id, to->id);
 }
 
-void from_to_obs(const char *from_name, uint32_t from_pid, uint64_t from_id,
-		 const char *to_name, uint32_t to_pid, uint64_t to_id)
+void sm_from_to_obs(const char *from_name, uint32_t from_pid, uint64_t from_id,
+		    const char *to_name, uint32_t to_pid, uint64_t to_id)
 {
 	struct timespec ts = {0};
 	struct tm tm;
