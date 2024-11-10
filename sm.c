@@ -62,6 +62,14 @@ void sm_attr_obs(const struct sm *m, const char *key, const char *value)
 		m->name, sm_pid(), m->id, m->conf[sm_state(m)].name, key, value);
 }
 
+void sm_attr_obs_d(const struct sm *m, const char *key, int64_t value)
+{
+	char buf[80];
+
+	sprintf(buf, "%ld", value);
+	sm_attr_obs(m, key, buf);
+}
+
 void sm_to_sm_obs(const struct sm *from, const struct sm *to)
 {
 	struct timespec ts = {0};
