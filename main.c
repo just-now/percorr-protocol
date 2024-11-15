@@ -8,7 +8,7 @@
 #include "sm.h"
 
 // ============================================================================
-// libuv-related part.
+// State machines and protocol.
 // ============================================================================
 
 #define assert_disk_io_never_fails(p)    assert((p))
@@ -454,7 +454,7 @@ static void follower_tick(struct party *follower, const struct sockaddr *addr,
 }
 
 // ============================================================================
-// libuv-related part.
+// libuv-related hooks, callbacks and main.
 // ============================================================================
 
 static void pool_alloc(uv_handle_t *handle, size_t _suggested_sz, uv_buf_t *buf)
