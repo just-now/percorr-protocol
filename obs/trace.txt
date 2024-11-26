@@ -1,84 +1,84 @@
-LIBDQLITE[000082] 2024-11-15T08:12:31.303214501 rpc pid: 82 sm_id: 1 init |
-LIBDQLITE[000082] 2024-11-15T08:12:31.303377188 rpc pid: 82 sm_id: 1 recv |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303385316 rpc-to-rpc opid: 78 dpid: 82 id: 4 id: 1 |
-LIBDQLITE[000082] 2024-11-15T08:12:31.303500151 rpc pid: 82 sm_id: 1 recv-sent |
-LIBDQLITE[000082] 2024-11-15T08:12:31.303872229 rpc pid: 82 sm_id: 2 init |
-LIBDQLITE[000082] 2024-11-15T08:12:31.303885599 rpc pid: 82 sm_id: 2 recv |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303892353 rpc-to-rpc opid: 78 dpid: 82 id: 5 id: 2 |
-LIBDQLITE[000082] 2024-11-15T08:12:31.304103634 rpc pid: 82 sm_id: 2 recv-sent |
-LIBDQLITE[000082] 2024-11-15T08:12:31.304404088 rpc pid: 82 sm_id: 3 init |
-LIBDQLITE[000082] 2024-11-15T08:12:31.304412033 rpc pid: 82 sm_id: 3 recv |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304417300 rpc-to-rpc opid: 78 dpid: 82 id: 6 id: 3 |
-LIBDQLITE[000082] 2024-11-15T08:12:31.304552077 rpc pid: 82 sm_id: 3 recv-sent |
-LIBDQLITE[000082] 2024-11-15T08:12:31.304870732 rpc pid: 82 sm_id: 4 init |
-LIBDQLITE[000082] 2024-11-15T08:12:31.304884013 rpc pid: 82 sm_id: 4 recv |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304890997 rpc-to-rpc opid: 78 dpid: 82 id: 7 id: 4 |
-LIBDQLITE[000082] 2024-11-15T08:12:31.305030385 rpc pid: 82 sm_id: 4 recv-sent |
-LIBDQLITE[000082] 2024-11-15T08:12:31.305367280 rpc pid: 82 sm_id: 5 init |
-LIBDQLITE[000082] 2024-11-15T08:12:31.305380422 rpc pid: 82 sm_id: 5 recv |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305387155 rpc-to-rpc opid: 78 dpid: 82 id: 8 id: 5 |
-LIBDQLITE[000082] 2024-11-15T08:12:31.305530311 rpc pid: 82 sm_id: 5 recv-sent |
-LIBDQLITE[000078] 2024-11-15T08:12:29.300325073 leader pid: 78 sm_id: 1 rest-loop |
-LIBDQLITE[000078] 2024-11-15T08:12:29.300412662 leader-attr pid: 78 sm_id: 1 rest-loop key: port value: 8081 |
-LIBDQLITE[000078] 2024-11-15T08:12:29.300456545 rpc pid: 78 sm_id: 2 init |
-LIBDQLITE[000078] 2024-11-15T08:12:29.300460895 leader-to-rpc opid: 78 dpid: 78 id: 1 id: 2 |
-LIBDQLITE[000078] 2024-11-15T08:12:29.300473378 rpc pid: 78 sm_id: 2 sent |
-LIBDQLITE[000078] 2024-11-15T08:12:29.300581751 leader pid: 78 sm_id: 1 rest-sent |
-LIBDQLITE[000078] 2024-11-15T08:12:30.301650242 leader pid: 78 sm_id: 1 rest-loop |
-LIBDQLITE[000078] 2024-11-15T08:12:30.301660212 rpc pid: 78 sm_id: 2 timeout |
-LIBDQLITE[000078] 2024-11-15T08:12:30.301675698 rpc pid: 78 sm_id: 3 init |
-LIBDQLITE[000078] 2024-11-15T08:12:30.301678100 leader-to-rpc opid: 78 dpid: 78 id: 1 id: 3 |
-LIBDQLITE[000078] 2024-11-15T08:12:30.301681325 rpc pid: 78 sm_id: 3 sent |
-LIBDQLITE[000078] 2024-11-15T08:12:30.301718139 leader pid: 78 sm_id: 1 rest-sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.302814818 leader pid: 78 sm_id: 1 rest-loop |
-LIBDQLITE[000078] 2024-11-15T08:12:31.302843239 rpc pid: 78 sm_id: 3 timeout |
-LIBDQLITE[000078] 2024-11-15T08:12:31.302895106 rpc pid: 78 sm_id: 4 init |
-LIBDQLITE[000078] 2024-11-15T08:12:31.302901583 leader-to-rpc opid: 78 dpid: 78 id: 1 id: 4 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.302910160 rpc pid: 78 sm_id: 4 sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.302995929 leader pid: 78 sm_id: 1 rest-sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303588790 leader pid: 78 sm_id: 1 rest-replied |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303623105 rpc pid: 78 sm_id: 4 replied |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303632047 leader pid: 78 sm_id: 1 blob-loop |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303638634 rpc pid: 78 sm_id: 5 init |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303644173 leader-to-rpc opid: 78 dpid: 78 id: 1 id: 5 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303670341 rpc pid: 78 sm_id: 5 sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303678197 rpc-attr pid: 78 sm_id: 5 sent key: chunk_index value: 0 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303685182 rpc-attr pid: 78 sm_id: 5 sent key: chunks_total value: 4 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303691559 rpc-attr pid: 78 sm_id: 5 sent key: file_size value: 14244 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303699954 rpc-attr pid: 78 sm_id: 5 sent key: chunk_size value: 4096 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.303768849 leader pid: 78 sm_id: 1 blob-sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304185223 leader pid: 78 sm_id: 1 blob-replied |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304206930 rpc pid: 78 sm_id: 5 replied |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304215739 leader pid: 78 sm_id: 1 blob-loop |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304222197 rpc pid: 78 sm_id: 6 init |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304227847 leader-to-rpc opid: 78 dpid: 78 id: 1 id: 6 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304246136 rpc pid: 78 sm_id: 6 sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304253424 rpc-attr pid: 78 sm_id: 6 sent key: chunk_index value: 1 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304260434 rpc-attr pid: 78 sm_id: 6 sent key: chunks_total value: 4 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304266839 rpc-attr pid: 78 sm_id: 6 sent key: file_size value: 14244 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304273041 rpc-attr pid: 78 sm_id: 6 sent key: chunk_size value: 4096 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304339634 leader pid: 78 sm_id: 1 blob-sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304630260 leader pid: 78 sm_id: 1 blob-replied |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304652914 rpc pid: 78 sm_id: 6 replied |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304661642 leader pid: 78 sm_id: 1 blob-loop |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304667974 rpc pid: 78 sm_id: 7 init |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304673501 leader-to-rpc opid: 78 dpid: 78 id: 1 id: 7 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304692307 rpc pid: 78 sm_id: 7 sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304699844 rpc-attr pid: 78 sm_id: 7 sent key: chunk_index value: 2 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304706734 rpc-attr pid: 78 sm_id: 7 sent key: chunks_total value: 4 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304713164 rpc-attr pid: 78 sm_id: 7 sent key: file_size value: 14244 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304719409 rpc-attr pid: 78 sm_id: 7 sent key: chunk_size value: 4096 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.304788222 leader pid: 78 sm_id: 1 blob-sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305113573 leader pid: 78 sm_id: 1 blob-replied |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305135612 rpc pid: 78 sm_id: 7 replied |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305144124 leader pid: 78 sm_id: 1 blob-loop |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305150468 rpc pid: 78 sm_id: 8 init |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305156052 leader-to-rpc opid: 78 dpid: 78 id: 1 id: 8 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305174264 rpc pid: 78 sm_id: 8 sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305181642 rpc-attr pid: 78 sm_id: 8 sent key: chunk_index value: 3 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305188735 rpc-attr pid: 78 sm_id: 8 sent key: chunks_total value: 4 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305195396 rpc-attr pid: 78 sm_id: 8 sent key: file_size value: 14244 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305201788 rpc-attr pid: 78 sm_id: 8 sent key: chunk_size value: 1956 |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305268841 leader pid: 78 sm_id: 1 blob-sent |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305606765 leader pid: 78 sm_id: 1 blob-replied |
-LIBDQLITE[000078] 2024-11-15T08:12:31.305628393 rpc pid: 78 sm_id: 8 replied |
+LIBDQLITE[000019] 2024-11-26T10:15:15.685545154 rpc pid: 19 sm_id: 1 init |
+LIBDQLITE[000019] 2024-11-26T10:15:15.685660570 rpc pid: 19 sm_id: 1 recv |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685668273 rpc-to-rpc opid: 15 dpid: 19 id: 4 id: 1 |
+LIBDQLITE[000019] 2024-11-26T10:15:15.685779706 rpc pid: 19 sm_id: 1 recv-sent |
+LIBDQLITE[000019] 2024-11-26T10:15:15.686155275 rpc pid: 19 sm_id: 2 init |
+LIBDQLITE[000019] 2024-11-26T10:15:15.686168139 rpc pid: 19 sm_id: 2 recv |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686174702 rpc-to-rpc opid: 15 dpid: 19 id: 5 id: 2 |
+LIBDQLITE[000019] 2024-11-26T10:15:15.686359923 rpc pid: 19 sm_id: 2 recv-sent |
+LIBDQLITE[000019] 2024-11-26T10:15:15.686686306 rpc pid: 19 sm_id: 3 init |
+LIBDQLITE[000019] 2024-11-26T10:15:15.686699662 rpc pid: 19 sm_id: 3 recv |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686706262 rpc-to-rpc opid: 15 dpid: 19 id: 6 id: 3 |
+LIBDQLITE[000019] 2024-11-26T10:15:15.686830267 rpc pid: 19 sm_id: 3 recv-sent |
+LIBDQLITE[000019] 2024-11-26T10:15:15.687152173 rpc pid: 19 sm_id: 4 init |
+LIBDQLITE[000019] 2024-11-26T10:15:15.687165222 rpc pid: 19 sm_id: 4 recv |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687171530 rpc-to-rpc opid: 15 dpid: 19 id: 7 id: 4 |
+LIBDQLITE[000019] 2024-11-26T10:15:15.687293165 rpc pid: 19 sm_id: 4 recv-sent |
+LIBDQLITE[000019] 2024-11-26T10:15:15.687621540 rpc pid: 19 sm_id: 5 init |
+LIBDQLITE[000019] 2024-11-26T10:15:15.687634526 rpc pid: 19 sm_id: 5 recv |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687640950 rpc-to-rpc opid: 15 dpid: 19 id: 8 id: 5 |
+LIBDQLITE[000019] 2024-11-26T10:15:15.687763132 rpc pid: 19 sm_id: 5 recv-sent |
+LIBDQLITE[000015] 2024-11-26T10:15:13.682405942 leader pid: 15 sm_id: 1 rest-loop |
+LIBDQLITE[000015] 2024-11-26T10:15:13.682558367 leader-attr pid: 15 sm_id: 1 rest-loop key: port value: 8081 |
+LIBDQLITE[000015] 2024-11-26T10:15:13.682626808 rpc pid: 15 sm_id: 2 init |
+LIBDQLITE[000015] 2024-11-26T10:15:13.682633815 leader-to-rpc opid: 15 dpid: 15 id: 1 id: 2 |
+LIBDQLITE[000015] 2024-11-26T10:15:13.682656587 rpc pid: 15 sm_id: 2 sent |
+LIBDQLITE[000015] 2024-11-26T10:15:13.682804245 leader pid: 15 sm_id: 1 rest-sent |
+LIBDQLITE[000015] 2024-11-26T10:15:14.683871688 leader pid: 15 sm_id: 1 rest-loop |
+LIBDQLITE[000015] 2024-11-26T10:15:14.683896385 rpc pid: 15 sm_id: 2 timeout |
+LIBDQLITE[000015] 2024-11-26T10:15:14.683958380 rpc pid: 15 sm_id: 3 init |
+LIBDQLITE[000015] 2024-11-26T10:15:14.683965483 leader-to-rpc opid: 15 dpid: 15 id: 1 id: 3 |
+LIBDQLITE[000015] 2024-11-26T10:15:14.683973771 rpc pid: 15 sm_id: 3 sent |
+LIBDQLITE[000015] 2024-11-26T10:15:14.684080125 leader pid: 15 sm_id: 1 rest-sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685185860 leader pid: 15 sm_id: 1 rest-loop |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685210315 rpc pid: 15 sm_id: 3 timeout |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685252317 rpc pid: 15 sm_id: 4 init |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685258726 leader-to-rpc opid: 15 dpid: 15 id: 1 id: 4 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685266856 rpc pid: 15 sm_id: 4 sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685348165 leader pid: 15 sm_id: 1 rest-sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685873773 leader pid: 15 sm_id: 1 rest-replied |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685914820 rpc pid: 15 sm_id: 4 replied |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685923204 leader pid: 15 sm_id: 1 blob-loop |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685929515 rpc pid: 15 sm_id: 5 init |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685935041 leader-to-rpc opid: 15 dpid: 15 id: 1 id: 5 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685957965 rpc pid: 15 sm_id: 5 sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685965472 rpc-attr pid: 15 sm_id: 5 sent key: chunk_index value: 0 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685972368 rpc-attr pid: 15 sm_id: 5 sent key: chunks_total value: 4 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685979562 rpc-attr pid: 15 sm_id: 5 sent key: file_size value: 14244 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.685985767 rpc-attr pid: 15 sm_id: 5 sent key: chunk_size value: 4096 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686053790 leader pid: 15 sm_id: 1 blob-sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686443039 leader pid: 15 sm_id: 1 blob-replied |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686464598 rpc pid: 15 sm_id: 5 replied |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686472909 leader pid: 15 sm_id: 1 blob-loop |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686479203 rpc pid: 15 sm_id: 6 init |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686484674 leader-to-rpc opid: 15 dpid: 15 id: 1 id: 6 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686500709 rpc pid: 15 sm_id: 6 sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686508213 rpc-attr pid: 15 sm_id: 6 sent key: chunk_index value: 1 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686515264 rpc-attr pid: 15 sm_id: 6 sent key: chunks_total value: 4 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686521678 rpc-attr pid: 15 sm_id: 6 sent key: file_size value: 14244 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686528088 rpc-attr pid: 15 sm_id: 6 sent key: chunk_size value: 4096 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686594726 leader pid: 15 sm_id: 1 blob-sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686917436 leader pid: 15 sm_id: 1 blob-replied |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686938858 rpc pid: 15 sm_id: 6 replied |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686947263 leader pid: 15 sm_id: 1 blob-loop |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686953379 rpc pid: 15 sm_id: 7 init |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686958757 leader-to-rpc opid: 15 dpid: 15 id: 1 id: 7 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686975065 rpc pid: 15 sm_id: 7 sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686982396 rpc-attr pid: 15 sm_id: 7 sent key: chunk_index value: 2 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686989320 rpc-attr pid: 15 sm_id: 7 sent key: chunks_total value: 4 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.686995662 rpc-attr pid: 15 sm_id: 7 sent key: file_size value: 14244 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687003472 rpc-attr pid: 15 sm_id: 7 sent key: chunk_size value: 4096 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687070290 leader pid: 15 sm_id: 1 blob-sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687389005 leader pid: 15 sm_id: 1 blob-replied |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687410247 rpc pid: 15 sm_id: 7 replied |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687418693 leader pid: 15 sm_id: 1 blob-loop |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687424920 rpc pid: 15 sm_id: 8 init |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687430300 leader-to-rpc opid: 15 dpid: 15 id: 1 id: 8 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687446032 rpc pid: 15 sm_id: 8 sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687453328 rpc-attr pid: 15 sm_id: 8 sent key: chunk_index value: 3 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687460257 rpc-attr pid: 15 sm_id: 8 sent key: chunks_total value: 4 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687466604 rpc-attr pid: 15 sm_id: 8 sent key: file_size value: 14244 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687473660 rpc-attr pid: 15 sm_id: 8 sent key: chunk_size value: 1956 |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687540556 leader pid: 15 sm_id: 1 blob-sent |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687837441 leader pid: 15 sm_id: 1 blob-replied |
+LIBDQLITE[000015] 2024-11-26T10:15:15.687859044 rpc pid: 15 sm_id: 8 replied |
