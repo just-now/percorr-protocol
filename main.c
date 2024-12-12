@@ -540,19 +540,19 @@ int main(int argc, char **argv)
 	const char *src_addr;
 	struct party party = {0};
 
-	if (argc < 4)
+	if (argc < 5)
 		return EINVAL;
 
 	if (strcmp("leader", argv[1]) == 0) {
 		party.role = R_LEADER;
-		party.fd_name = "main.c";
+		party.fd_name = argv[4];
 		src_addr = argv[2];
 		party.dst_ipaddr = argv[3];
 		party.dst_port = 8080;
 		port = 8081;
 	} else if (strcmp("follower", argv[1]) == 0) {
 		party.role = R_FOLLOWER;
-		party.fd_name = "file.x";
+		party.fd_name = argv[4];
 		src_addr = argv[2];
 		port = 8080;
 	} else
