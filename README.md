@@ -60,6 +60,7 @@ Setup link to drop packets or to delay them:
 ```
 sudo ip netns exec ns1   tc qdisc add dev veth1 root netem delay 200ms 20ms
 sudo ip netns exec ns1   tc qdisc add dev veth1 root netem loss 20%
+sudo ip netns exec ns1   tc qdisc add dev veth1 root netem delay 50ms duplicate 10%
 sudo ip netns exec ns1   sudo tc qdisc del dev veth1 root
 ```
 
