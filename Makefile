@@ -12,6 +12,6 @@ test: party
 	killall party
 	grep -F LIBDQ follower_log.txt leader_log.txt > obs/trace.txt
 	cd obs && rm -f tree_* chronoscope.db && ./env python3  -m chronoscope create -t trace.txt -c chronoscope.yaml
-	cd obs && ./env ./browse chronoscope.db ' '
+	cd obs && ./env ./browse chronoscope.db
 	cmp bulk.bin fbulk.bin
 
