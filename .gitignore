@@ -1,5 +1,13 @@
-party
-libuv/
+bulk.bin
+fbulk.bin
+follower_log.txt
 GPATH
 GRTAGS
 GTAGS
+leader_log.txt
+libuv/
+obs/chronoscope.db
+obs/.env/
+obs/trace.txt
+obs/tree_*
+party
