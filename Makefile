@@ -1,6 +1,5 @@
-.PHONY: all
-all:
-	gcc -Wall -Wpedantic -O0 -g -o party main.c sm.c -luv
+party: main.c sm.c sm.h
+	gcc -Wall -Wpedantic -O0 -g -o $@ $^ -luv
 
 .PHONY: test
 test:
