@@ -2,7 +2,7 @@ party: main.c sm.c sm.h
 	gcc -Wall -Wpedantic -O0 -g -o $@ $^ -luv
 
 .PHONY: test
-test:
+test: party
 	rm -f fbulk.bin bulk.bin
 	dd if=/dev/urandom of=bulk.bin bs=3K count=10
 	./party leader 127.0.0.1 127.0.0.1 bulk.bin 2>&1  | tee leader_log.txt &
