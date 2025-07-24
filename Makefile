@@ -3,7 +3,7 @@ party: main.c sm.c sm.h
 
 .PHONY: test
 test: party
-	rm -f fbulk.bin bulk.bin
+	rm -f fbulk.bin
 	dd if=/dev/urandom of=bulk.bin bs=3K count=10
 	./party leader 127.0.0.1 127.0.0.1 bulk.bin 2>&1  | tee leader_log.txt &
 	sleep 1
