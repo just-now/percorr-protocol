@@ -3,7 +3,7 @@
 ### Ubuntu 22.04+ install deps
 
 ```
-$ sudo apt install libuv1-dev gcc make sqlite3
+$ sudo apt install libuv1-dev gcc make sqlite3 graphviz python3-tk
 ```
 
 ### Build & run local test
